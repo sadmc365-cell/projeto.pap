@@ -14,21 +14,21 @@
 </head>
 <body class="bg-slate-100 font-sans text-slate-800 antialiased flex h-screen overflow-hidden">
 
-    <!-- ECRÃ DE LOGIN / REGISTO (SOBREPOSTO) -->
+    <!-- ECRÃ DE LOGIN / REGISTO (BLOQUEIO OBRIGATÓRIO) -->
     <div id="auth-screen" class="fixed inset-0 bg-slate-900/90 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl border border-slate-200">
             <div class="flex items-center justify-center gap-3 mb-6">
-                <div class="bg-emerald-600 text-white p-3 rounded-2xl flex items-center justify-center">
+                <div class="bg-emerald-700 text-white p-3 rounded-2xl flex items-center justify-center">
                     <i class="fa-solid fa-calculator text-2xl"></i>
                 </div>
                 <div>
                     <h1 class="text-2xl font-bold text-slate-900 leading-tight">ObraQuote</h1>
-                    <span class="text-xs text-emerald-600 font-bold tracking-widest uppercase">Pro</span>
+                    <span class="text-xs text-emerald-700 font-bold tracking-widest uppercase">Pro</span>
                 </div>
             </div>
 
             <div class="flex border-b border-slate-200 mb-6">
-                <button onclick="toggleAuthMode('login')" id="btn-auth-login" class="flex-1 py-2 text-center text-sm font-bold border-b-2 border-emerald-600 text-emerald-700">Iniciar Sessão</button>
+                <button onclick="toggleAuthMode('login')" id="btn-auth-login" class="flex-1 py-2 text-center text-sm font-bold border-b-2 border-emerald-700 text-emerald-700">Iniciar Sessão</button>
                 <button onclick="toggleAuthMode('register')" id="btn-auth-register" class="flex-1 py-2 text-center text-sm font-bold text-slate-400 hover:text-slate-600">Criar Conta</button>
             </div>
 
@@ -66,7 +66,7 @@
     <aside class="w-64 bg-slate-900 text-slate-300 flex flex-col justify-between shrink-0 select-none">
         <div>
             <div class="p-5 flex items-center gap-3 border-b border-slate-800">
-                <div class="bg-emerald-600 text-white p-2 rounded-lg flex items-center justify-center">
+                <div class="bg-emerald-700 text-white p-2 rounded-lg flex items-center justify-center">
                     <i class="fa-solid font-bold fa-calculator text-xl"></i>
                 </div>
                 <div>
@@ -76,7 +76,7 @@
             </div>
 
             <nav class="p-3 space-y-1 text-sm font-medium">
-                <button onclick="switchTab('inicio')" id="nav-inicio" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition hover:bg-slate-800 hover:text-white bg-emerald-600 text-white">
+                <button onclick="switchTab('inicio')" id="nav-inicio" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition hover:bg-slate-800 hover:text-white bg-emerald-700 text-white">
                     <i class="fa-solid fa-house w-5 text-center"></i> Início
                 </button>
                 <button onclick="switchTab('clientes')" id="nav-clientes" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition hover:bg-slate-800 hover:text-white">
@@ -112,7 +112,7 @@
         
         <header class="bg-white border-b border-slate-200 px-8 py-4 flex items-center justify-between shrink-0">
             <div>
-                <span class="text-xs font-semibold text-emerald-700 tracking-wider uppercase">QUINTA-FEIRA, 29 DE OUTUBRO DE 2026</span>
+                <span class="text-xs font-semibold text-emerald-700 tracking-wider uppercase" id="current-date-label">SEGUNDA-FEIRA, 02 DE NOVEMBRO DE 2026</span>
                 <h2 class="text-2xl font-bold text-slate-900" id="header-title">Visão Geral</h2>
             </div>
             <div class="flex items-center gap-6">
@@ -132,72 +132,24 @@
 
         <div class="flex-1 overflow-y-auto p-8 custom-scrollbar space-y-8" id="content-area">
             
-            <!-- TAB: INÍCIO (VISÃO GERAL) -->
+            <!-- TAB: INÍCIO -->
             <div id="tab-inicio" class="tab-content space-y-8">
                 <div class="grid grid-cols-4 gap-4">
                     <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
                         <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-700 font-bold">€</div>
-                        <div>
-                            <span class="text-xs text-slate-500">Receita este mês</span>
-                            <h3 class="text-2xl font-bold text-slate-900">0,00 €</h3>
-                            <span class="text-[11px] text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">Sem alterações vs mês anterior</span>
-                        </div>
+                        <div><span class="text-xs text-slate-500">Receita este mês</span><h3 class="text-2xl font-bold text-slate-900" id="stat-receita">0,00 €</h3></div>
                     </div>
                     <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
                         <div class="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-700"><i class="fa-regular fa-file-lines"></i></div>
-                        <div>
-                            <span class="text-xs text-slate-500">Orçamentos</span>
-                            <h3 class="text-2xl font-bold text-slate-900">0</h3>
-                            <span class="text-[11px] text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">Sem alterações vs mês anterior</span>
-                        </div>
+                        <div><span class="text-xs text-slate-500">Orçamentos</span><h3 class="text-2xl font-bold text-slate-900" id="stat-orcamentos">0</h3></div>
                     </div>
                     <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
                         <div class="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center text-amber-700"><i class="fa-regular fa-user"></i></div>
-                        <div>
-                            <span class="text-xs text-slate-500">Clientes</span>
-                            <h3 class="text-2xl font-bold text-slate-900">0</h3>
-                            <span class="text-[11px] text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">Sem alterações vs mês anterior</span>
-                        </div>
+                        <div><span class="text-xs text-slate-500">Clientes</span><h3 class="text-2xl font-bold text-slate-900" id="stat-clientes">0</h3></div>
                     </div>
                     <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
                         <div class="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center text-purple-700"><i class="fa-solid fa-house-chimney-crack"></i></div>
-                        <div>
-                            <span class="text-xs text-slate-500">Obras em curso</span>
-                            <h3 class="text-2xl font-bold text-slate-900">0</h3>
-                            <span class="text-[11px] text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">Aprovadas atualmente</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-3 gap-6">
-                    <div class="col-span-2 bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
-                        <div class="flex justify-between items-center mb-6">
-                            <div>
-                                <span class="text-xs font-bold text-emerald-700 uppercase">EVOLUÇÃO</span>
-                                <h4 class="font-bold text-slate-900">Orçamentos por mês</h4>
-                            </div>
-                            <select class="border border-slate-200 rounded-lg px-2 py-1 text-xs"><option>2026</option></select>
-                        </div>
-                        <div class="h-48 flex items-end justify-between px-4 border-b border-slate-200 text-xs text-slate-400 pb-2">
-                            <span>Jan</span><span>Fev</span><span>Mar</span><span>Abr</span><span>Mai</span><span>Jun</span><span>Jul</span><span>Ago</span><span>Set</span><span>Out</span><span>Nov</span><span>Dez</span>
-                        </div>
-                    </div>
-
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
-                        <span class="text-xs font-bold text-emerald-700 uppercase">ESTADOS</span>
-                        <h4 class="font-bold text-slate-900 mb-4">Distribuição por estado</h4>
-                        <div class="flex flex-col items-center justify-center my-4">
-                            <div class="w-24 h-24 rounded-full border-8 border-slate-100 flex items-center justify-center flex-col">
-                                <span class="font-bold text-base">0</span>
-                                <span class="text-[9px] text-slate-400 uppercase">TOTAL</span>
-                            </div>
-                        </div>
-                        <div class="space-y-2 text-xs">
-                            <div class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="w-2.5 h-2.5 bg-blue-500 rounded-full"></span> Pendentes</span><span class="font-bold">0 (0.0%)</span></div>
-                            <div class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="w-2.5 h-2.5 bg-amber-500 rounded-full"></span> Em análise</span><span class="font-bold">0 (0.0%)</span></div>
-                            <div class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="w-2.5 h-2.5 bg-emerald-500 rounded-full"></span> Aprovados</span><span class="font-bold">0 (0.0%)</span></div>
-                            <div class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="w-2.5 h-2.5 bg-red-500 rounded-full"></span> Rejeitados</span><span class="font-bold">0 (0.0%)</span></div>
-                        </div>
+                        <div><span class="text-xs text-slate-500">Obras em curso</span><h3 class="text-2xl font-bold text-slate-900" id="stat-obras">0</h3></div>
                     </div>
                 </div>
             </div>
@@ -207,10 +159,7 @@
                 <div class="grid grid-cols-3 gap-6">
                     <div class="col-span-2 bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
                         <div class="flex justify-between items-center">
-                            <div>
-                                <span class="text-xs font-bold text-emerald-700 uppercase">FICHA</span>
-                                <h3 class="text-lg font-bold text-slate-900">Novo cliente</h3>
-                            </div>
+                            <div><span class="text-xs font-bold text-emerald-700 uppercase">FICHA</span><h3 class="text-lg font-bold text-slate-900">Novo cliente</h3></div>
                             <button onclick="document.getElementById('client-form').reset()" class="border border-slate-200 px-3 py-1.5 rounded-xl text-xs font-medium hover:bg-slate-50">Limpar</button>
                         </div>
                         <form id="client-form" onsubmit="saveClient(event)" class="space-y-4">
@@ -219,17 +168,128 @@
                                 <div><label class="block text-xs font-medium text-slate-600 mb-1">Telefone</label><input type="text" id="cli-tel" placeholder="+351 900 000 000" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"></div>
                             </div>
                             <div><label class="block text-xs font-medium text-slate-600 mb-1">Morada</label><input type="text" id="cli-morada" placeholder="Rua, número, cidade" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"></div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div><label class="block text-xs font-medium text-slate-600 mb-1">Data</label><input type="date" id="cli-data" value="2026-11-02" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"></div>
+                                <div><label class="block text-xs font-medium text-slate-600 mb-1">Tipo de serviço</label><select id="cli-tipo" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white"><option>Pintura</option><option>Remodelação Geral</option><option>Canalização</option></select></div>
+                            </div>
+                            <div><label class="block text-xs font-medium text-slate-600 mb-1">Notas</label><textarea id="cli-notas" placeholder="Prioridades, acesso, horários, detalhes técnicos" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm h-24"></textarea></div>
                             <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-medium px-5 py-2.5 rounded-xl text-sm transition">Guardar cliente</button>
                         </form>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
+                        <div><span class="text-xs font-bold text-emerald-700 uppercase">HISTÓRICO</span><h3 class="text-lg font-bold text-slate-900">Clientes guardados</h3></div>
+                        <div id="clients-list" class="space-y-3">
+                            <div class="border border-dashed border-slate-200 rounded-xl p-8 text-center text-xs text-slate-400">Crie o primeiro cliente.</div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- TAB: ORÇAMENTOS -->
+            <!-- TAB: ORÇAMENTOS & CROQUIS & CATÁLOGO -->
             <div id="tab-orcamentos" class="tab-content hidden space-y-6">
-                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
-                    <h3 class="text-lg font-bold text-slate-900 mb-2">Orçamentos</h3>
-                    <p class="text-xs text-slate-500">Módulo de orçamentos e croquis interativos.</p>
+                <div class="grid grid-cols-3 gap-6">
+                    <div class="col-span-2 space-y-6">
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
+                            <div class="flex justify-between items-center">
+                                <div><span class="text-xs font-bold text-emerald-700 uppercase">ORÇAMENTO</span><h3 class="text-lg font-bold text-slate-900">Projeto e serviços</h3></div>
+                                <div class="flex gap-2">
+                                    <button class="border border-slate-200 px-3 py-1.5 rounded-xl text-xs font-medium hover:bg-slate-50">Novo</button>
+                                    <button onclick="alert('A gerar PDF do orçamento...')" class="bg-emerald-700 text-white px-3 py-1.5 rounded-xl text-xs font-medium hover:bg-emerald-800">Gerar PDF</button>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <div><label class="block text-xs font-medium text-slate-600 mb-1">Cliente</label><select id="orc-cli-select" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white"><option>Criar cliente primeiro</option></select></div>
+                                <div><label class="block text-xs font-medium text-slate-600 mb-1">Projeto</label><input type="text" id="orc-proj-nome" placeholder="Ex: Apartamento T2 - Sala e cozinha" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"></div>
+                                <div><label class="block text-xs font-medium text-slate-600 mb-1">Data</label><input type="date" value="2026-11-02" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"></div>
+                                <div><label class="block text-xs font-medium text-slate-600 mb-1">IVA (%)</label><input type="number" id="orc-iva-pct" value="23" oninput="calculateTotals()" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"></div>
+                                <div><label class="block text-xs font-medium text-slate-600 mb-1">Estado do orçamento</label><select id="orc-estado" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white"><option>Pendente</option><option>Em análise</option><option>Aprovado</option><option>Rejeitado</option></select></div>
+                                <div><label class="block text-xs font-medium text-slate-600 mb-1">Abrir projeto</label><select class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white"><option>Novo orçamento</option></select></div>
+                            </div>
+                        </div>
+
+                        <!-- CATÁLOGO DE SERVIÇOS -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
+                            <div class="flex justify-between items-center">
+                                <div><span class="text-xs font-bold text-emerald-700 uppercase">CATÁLOGO</span><h3 class="text-lg font-bold text-slate-900">Serviços para marcar</h3></div>
+                                <span id="catalog-marked-count" class="text-xs text-slate-500 font-medium">0 marcados</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-3" id="catalog-grid">
+                                <!-- Preenchido dinamicamente -->
+                            </div>
+                        </div>
+
+                        <!-- ADICIONAR LINHA -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
+                            <div><span class="text-xs font-bold text-emerald-700 uppercase">ORÇAMENTO</span><h4 class="font-bold text-slate-900">Adicionar linha com preço</h4></div>
+                            <div class="grid grid-cols-3 gap-4">
+                                <div class="col-span-3">
+                                    <label class="block text-xs font-medium text-slate-600 mb-1">Serviço do catálogo</label>
+                                    <select id="orc-service-select" onchange="autoFillServicePrice()" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white"></select>
+                                </div>
+                                <div><label class="block text-xs font-medium text-slate-600 mb-1">Zona / detalhe</label><input type="text" id="orc-zona" placeholder="Ex: sala, WC" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"></div>
+                                <div><label class="block text-xs font-medium text-slate-600 mb-1">Quantidade (m2 / unid)</label><input type="number" id="orc-qtd" value="1" oninput="calculateTotals()" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"></div>
+                                <div><label class="block text-xs font-medium text-slate-600 mb-1">Preço / unid (€)</label><input type="number" id="orc-preco" value="0" oninput="calculateTotals()" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"></div>
+                                <div><label class="block text-xs font-medium text-slate-600 mb-1">Materiais extra (€)</label><input type="number" id="orc-mat" value="0" oninput="calculateTotals()" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"></div>
+                                <div><label class="block text-xs font-medium text-slate-600 mb-1">Mão de obra (€)</label><input type="number" id="orc-mo" value="0" oninput="calculateTotals()" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"></div>
+                            </div>
+                            <button onclick="addBudgetItem()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-medium px-4 py-2 rounded-xl text-xs transition">Adicionar serviço</button>
+                        </div>
+
+                        <!-- TABELA DE ITENS ADICIONADOS -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
+                            <h4 class="font-bold text-slate-900">Itens do Orçamento</h4>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-xs">
+                                    <thead>
+                                        <tr class="border-b text-slate-400">
+                                            <th class="pb-2">SERVIÇO</th>
+                                            <th class="pb-2">ZONA</th>
+                                            <th class="pb-2">QTD.</th>
+                                            <th class="pb-2">PREÇO</th>
+                                            <th class="pb-2">TOTAL</th>
+                                            <th class="pb-2 text-right">AÇÕES</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="budget-items-tbody">
+                                        <tr><td colspan="6" class="py-4 text-center text-slate-400">Adicione uma linha de serviço.</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- CROQUIS / DIAGRAMAS -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
+                            <div class="flex justify-between items-center">
+                                <div><span class="text-xs font-bold text-emerald-700 uppercase">CROQUIS</span><h4 class="font-bold text-slate-900">Diagramas do projeto</h4></div>
+                                <button onclick="alert('Diagrama guardado com sucesso!')" class="bg-emerald-700 text-white px-4 py-2 rounded-xl text-xs font-medium hover:bg-emerald-800">Guardar diagrama</button>
+                            </div>
+                            <div class="grid grid-cols-4 gap-4 items-end">
+                                <div><label class="block text-xs text-slate-600 mb-1">Nome</label><input type="text" placeholder="Ex: cozinha, banho" class="w-full border rounded-lg px-3 py-2 text-sm"></div>
+                                <div><label class="block text-xs text-slate-600 mb-1">Cor</label><input type="color" value="#000000" class="w-full h-9 border rounded-lg p-1"></div>
+                                <div><label class="block text-xs text-slate-600 mb-1">Espessura</label><input type="range" min="1" max="10" value="3" class="w-full"></div>
+                                <div><label class="block text-xs text-slate-600 mb-1">Ferramenta</label><select class="w-full border rounded-lg px-3 py-2 text-sm bg-white"><option>Lápis</option><option>Borracha</option></select></div>
+                            </div>
+                            <div class="border border-slate-200 rounded-xl h-64 bg-slate-50 flex items-center justify-center text-xs text-slate-400">
+                                Desenhe um croquis e guarde com nome.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- COLUNA LATERAL DE RESUMO AUTOMÁTICO -->
+                    <div class="space-y-6">
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm space-y-3 sticky top-6">
+                            <span class="text-xs font-bold text-emerald-700 uppercase">RESUMO</span>
+                            <h4 class="font-bold text-slate-900">Total automático</h4>
+                            <div class="flex justify-between text-xs text-slate-600"><span>Serviços</span><span id="res-servicos">0,00 €</span></div>
+                            <div class="flex justify-between text-xs text-slate-600"><span>Materiais</span><span id="res-materiais">0,00 €</span></div>
+                            <div class="flex justify-between text-xs text-slate-600"><span>Mão de obra</span><span id="res-mo">0,00 €</span></div>
+                            <div class="flex justify-between text-xs text-slate-600 font-semibold border-t pt-2"><span>Subtotal</span><span id="res-subtotal">0,00 €</span></div>
+                            <div class="flex justify-between text-xs text-slate-600"><span>IVA <span id="iva-label-pct">23</span>%</span><span id="res-iva">0,00 €</span></div>
+                            <div class="border-t border-slate-200 pt-3 flex justify-between font-bold text-base text-slate-900"><span>Total</span><span id="res-total" class="text-emerald-700">0,00 €</span></div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -237,7 +297,7 @@
             <div id="tab-custos" class="tab-content hidden space-y-6">
                 <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
                     <h3 class="text-lg font-bold text-slate-900 mb-2">Custos</h3>
-                    <p class="text-xs text-slate-500">Gestão e desagregação financeira de obras.</p>
+                    <p class="text-xs text-slate-500">Gestão financeira e desagregação de custos de obra.</p>
                 </div>
             </div>
 
@@ -251,14 +311,14 @@
             <!-- TAB: CALENDÁRIO -->
             <div id="tab-calendario" class="tab-content hidden space-y-6">
                 <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
-                    <h3 class="text-lg font-bold text-slate-900 mb-2">Calendário</h3>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Calendário de Obras</h3>
                 </div>
             </div>
 
             <!-- TAB: DEFINIÇÕES -->
             <div id="tab-definicoes" class="tab-content hidden space-y-6">
                 <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
-                    <h3 class="text-lg font-bold text-slate-900 mb-2">Definições</h3>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Definições da Empresa e Catálogo</h3>
                 </div>
             </div>
 
@@ -266,8 +326,26 @@
     </main>
 
     <script>
+        // CATÁLOGO DE SERVIÇOS INICIAL
+        const catalogServices = [
+            { id: 'BA01', name: 'Remodelacion parcial de baño', cat: 'Banos / Cocinas', unit: 'unid.', price: 450 },
+            { id: 'BA02', name: 'Remodelacion completa de bano', cat: 'Banos / Cocinas', unit: 'unid.', price: 1200 },
+            { id: 'BA03', name: 'Remodelacion parcial de cocina', cat: 'Banos / Cocinas', unit: 'unid.', price: 600 },
+            { id: 'BA04', name: 'Remodelacion completa de cocina', cat: 'Banos / Cocinas', unit: 'unid.', price: 1800 },
+            { id: 'PT01', name: 'Pintura', cat: 'Pintura y Paredes', unit: 'm2', price: 9 },
+            { id: 'PT02', name: 'Pintura rectificacion de superficie', cat: 'Pintura y Paredes', unit: 'm2', price: 14 },
+            { id: 'PL01', name: 'Pladur en paredes', cat: 'Pintura y Paredes', unit: 'm2', price: 25 },
+            { id: 'PL02', name: 'Pladur en techos', cat: 'Pintura y Paredes', unit: 'm2', price: 28 },
+            { id: 'MC01', name: 'Microcemento en paredes', cat: 'Pintura y Paredes', unit: 'm2', price: 45 },
+            { id: 'PZ01', name: 'Piso con remocion', cat: 'Suelos / Pisos', unit: 'm2', price: 22 },
+            { id: 'PZ02', name: 'Piso sin remocion', cat: 'Suelos / Pisos', unit: 'm2', price: 16 },
+            { id: 'PZ03', name: 'Piso flutuante', cat: 'Suelos / Pisos', unit: 'm2', price: 18 }
+        ];
+
         let users = JSON.parse(localStorage.getItem('obraquote_users')) || [];
         let currentUser = JSON.parse(localStorage.getItem('obraquote_logged_user')) || null;
+        let clients = JSON.parse(localStorage.getItem('obraquote_clients')) || [];
+        let budgetItems = [];
 
         function toggleAuthMode(mode) {
             const formLogin = document.getElementById('form-login');
@@ -278,12 +356,12 @@
             if (mode === 'login') {
                 formLogin.classList.remove('hidden');
                 formReg.classList.add('hidden');
-                btnLogin.className = "flex-1 py-2 text-center text-sm font-bold border-b-2 border-emerald-600 text-emerald-700";
+                btnLogin.className = "flex-1 py-2 text-center text-sm font-bold border-b-2 border-emerald-700 text-emerald-700";
                 btnReg.className = "flex-1 py-2 text-center text-sm font-bold text-slate-400 hover:text-slate-600";
             } else {
                 formLogin.classList.add('hidden');
                 formReg.classList.remove('hidden');
-                btnReg.className = "flex-1 py-2 text-center text-sm font-bold border-b-2 border-emerald-600 text-emerald-700";
+                btnReg.className = "flex-1 py-2 text-center text-sm font-bold border-b-2 border-emerald-700 text-emerald-700";
                 btnLogin.className = "flex-1 py-2 text-center text-sm font-bold text-slate-400 hover:text-slate-600";
             }
         }
@@ -343,25 +421,166 @@
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('nav button').forEach(el => {
-                el.classList.remove('bg-emerald-600', 'text-white');
+                el.classList.remove('bg-emerald-700', 'text-white');
                 el.classList.add('hover:bg-slate-800', 'hover:text-white');
             });
 
             document.getElementById(`tab-${tabId}`).classList.remove('hidden');
             const activeNav = document.getElementById(`nav-${tabId}`);
             if (activeNav) {
-                activeNav.classList.add('bg-emerald-600', 'text-white');
+                activeNav.classList.add('bg-emerald-700', 'text-white');
             }
             document.getElementById('header-title').textContent = tabId.charAt(0).toUpperCase() + tabId.slice(1);
         }
 
         function saveClient(e) {
             e.preventDefault();
+            const client = {
+                id: Date.now(),
+                name: document.getElementById('cli-nome').value,
+                phone: document.getElementById('cli-tel').value,
+                address: document.getElementById('cli-morada').value,
+                date: document.getElementById('cli-data').value,
+                type: document.getElementById('cli-tipo').value,
+                notes: document.getElementById('cli-notas').value
+            };
+            clients.push(client);
+            localStorage.setItem('obraquote_clients', JSON.stringify(clients));
+            renderClients();
+            document.getElementById('client-form').reset();
             alert('Cliente guardado com sucesso!');
+        }
+
+        function renderClients() {
+            const list = document.getElementById('clients-list');
+            const select = document.getElementById('orc-cli-select');
+            
+            if (clients.length === 0) {
+                list.innerHTML = `<div class="border border-dashed border-slate-200 rounded-xl p-8 text-center text-xs text-slate-400">Crie o primeiro cliente.</div>`;
+                select.innerHTML = `<option>Criar cliente primeiro</option>`;
+                document.getElementById('stat-clientes').textContent = '0';
+                return;
+            }
+
+            document.getElementById('stat-clientes').textContent = clients.length;
+            list.innerHTML = clients.map(c => `
+                <div class="p-3 border border-slate-200 rounded-xl bg-slate-50 text-xs space-y-1">
+                    <p class="font-bold text-slate-800">${c.name}</p>
+                    <p class="text-slate-500">${c.phone || 'Sem telefone'} • ${c.address || 'Sem morada'}</p>
+                </div>
+            `).join('');
+
+            select.innerHTML = clients.map(c => `<option value="${c.id}">${c.name} (${c.type})</option>`).join('');
+        }
+
+        function renderCatalog() {
+            const grid = document.getElementById('catalog-grid');
+            const serviceSelect = document.getElementById('orc-service-select');
+
+            grid.innerHTML = catalogServices.map(s => `
+                <div class="border border-slate-200 p-3 rounded-xl bg-white flex flex-col justify-between space-y-2">
+                    <div class="flex justify-between items-start">
+                        <span class="text-[10px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded">${s.id}</span>
+                        <input type="checkbox" onchange="updateCatalogCount()" class="rounded border-slate-300 text-emerald-700 focus:ring-emerald-500">
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold text-slate-800 leading-tight">${s.name}</p>
+                        <p class="text-[10px] text-slate-400">${s.cat} • ${s.unit} • ${s.price} €</p>
+                    </div>
+                </div>
+            `).join('');
+
+            serviceSelect.innerHTML = catalogServices.map(s => `<option value="${s.id}" data-price="${s.price}">${s.id} - ${s.name} (${s.price}€/${s.unit})</option>`).join('');
+            autoFillServicePrice();
+        }
+
+        function updateCatalogCount() {
+            const checked = document.querySelectorAll('#catalog-grid input[type="checkbox"]:checked').length;
+            document.getElementById('catalog-marked-count').textContent = `${checked} marcados`;
+        }
+
+        function autoFillServicePrice() {
+            const select = document.getElementById('orc-service-select');
+            const selectedOpt = select.options[select.selectedIndex];
+            if (selectedOpt) {
+                const price = selectedOpt.getAttribute('data-price') || 0;
+                document.getElementById('orc-preco').value = price;
+                calculateTotals();
+            }
+        }
+
+        function addBudgetItem() {
+            const select = document.getElementById('orc-service-select');
+            const serviceName = select.options[select.selectedIndex].text;
+            const zona = document.getElementById('orc-zona').value || 'Geral';
+            const qtd = parseFloat(document.getElementById('orc-qtd').value) || 0;
+            const preco = parseFloat(document.getElementById('orc-preco').value) || 0;
+            const mat = parseFloat(document.getElementById('orc-mat').value) || 0;
+            const mo = parseFloat(document.getElementById('orc-mo').value) || 0;
+
+            const totalItem = (qtd * preco) + mat + mo;
+
+            budgetItems.push({ serviceName, zona, qtd, preco, mat, mo, totalItem });
+            renderBudgetTable();
+            calculateTotals();
+        }
+
+        function renderBudgetTable() {
+            const tbody = document.getElementById('budget-items-tbody');
+            if (budgetItems.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="py-4 text-center text-slate-400">Adicione uma linha de serviço.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = budgetItems.map((item, idx) => `
+                <tr class="border-b border-slate-100">
+                    <td class="py-2 font-medium text-slate-800">${item.serviceName}</td>
+                    <td class="py-2 text-slate-500">${item.zona}</td>
+                    <td class="py-2 text-slate-500">${item.qtd}</td>
+                    <td class="py-2 text-slate-500">${item.preco.toFixed(2)} €</td>
+                    <td class="py-2 font-bold text-slate-900">${item.totalItem.toFixed(2)} €</td>
+                    <td class="py-2 text-right"><button onclick="removeBudgetItem(${idx})" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button></td>
+                </tr>
+            `).join('');
+        }
+
+        function removeBudgetItem(index) {
+            budgetItems.splice(index, 1);
+            renderBudgetTable();
+            calculateTotals();
+        }
+
+        function calculateTotals() {
+            let totalServicos = 0;
+            let totalMateriais = 0;
+            let totalMO = 0;
+
+            budgetItems.forEach(item => {
+                totalServicos += (item.qtd * item.preco);
+                totalMateriais += item.mat;
+                totalMO += item.mo;
+            });
+
+            const subtotal = totalServicos + totalMateriais + totalMO;
+            const ivaPct = parseFloat(document.getElementById('orc-iva-pct').value) || 23;
+            const ivaVal = subtotal * (ivaPct / 100);
+            const totalGeral = subtotal + ivaVal;
+
+            document.getElementById('res-servicos').textContent = totalServicos.toFixed(2) + ' €';
+            document.getElementById('res-materiais').textContent = totalMateriais.toFixed(2) + ' €';
+            document.getElementById('res-mo').textContent = totalMO.toFixed(2) + ' €';
+            document.getElementById('res-subtotal').textContent = subtotal.toFixed(2) + ' €';
+            document.getElementById('iva-label-pct').textContent = ivaPct;
+            document.getElementById('res-iva').textContent = ivaVal.toFixed(2) + ' €';
+            document.getElementById('res-total').textContent = totalGeral.toFixed(2) + ' €';
+
+            document.getElementById('stat-receita').textContent = totalGeral.toFixed(2) + ' €';
         }
 
         window.onload = function() {
             checkAuth();
+            renderClients();
+            renderCatalog();
             switchTab('inicio');
         };
     </script>
