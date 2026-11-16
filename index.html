@@ -9,7 +9,7 @@
     <style>
         .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
     </style>
 </head>
 <body class="bg-slate-100 font-sans text-slate-800 antialiased flex h-screen overflow-hidden">
@@ -117,7 +117,7 @@
             </div>
             <div class="flex items-center gap-6">
                 <div class="relative w-80">
-                    <input type="text" placeholder="PESQUISAR  Cliente, projeto, morada..." class="w-full bg-slate-50 border border-slate-200 rounded-lg pl-3 pr-8 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <input type="text" placeholder="BUSCAR  Cliente, projeto, morada..." class="w-full bg-slate-50 border border-slate-200 rounded-lg pl-3 pr-8 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
                 </div>
                 <div class="flex items-center gap-3 border-l border-slate-200 pl-6">
                     <button class="relative text-slate-400 hover:text-slate-600"><i class="fa-regular fa-bell text-lg"></i></button>
@@ -247,9 +247,7 @@
                                 <div><span class="text-xs font-bold text-emerald-700 uppercase">CATÁLOGO</span><h3 class="text-lg font-bold text-slate-900">Serviços para selecionar</h3></div>
                                 <span id="catalog-marked-count" class="text-xs text-slate-500 font-medium">0 selecionados</span>
                             </div>
-                            <div class="grid grid-cols-3 gap-3" id="catalog-grid">
-                                <!-- Preenchido dinamicamente -->
-                            </div>
+                            <div class="grid grid-cols-3 gap-3" id="catalog-grid"></div>
                         </div>
 
                         <!-- ADICIONAR LINHA -->
@@ -325,11 +323,95 @@
                 </div>
             </div>
 
-            <!-- SEPARADOR: CUSTOS -->
+            <!-- SEPARADOR: CUSTOS (IDÊNTICO À CAPTURA) -->
             <div id="tab-custos" class="tab-content hidden space-y-6">
-                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
-                    <h3 class="text-lg font-bold text-slate-900 mb-2">Custos</h3>
-                    <p class="text-xs text-slate-500">Gestão financeira e desagregação de custos de obra.</p>
+                <!-- 4 CARTÕES SUPERIORES -->
+                <div class="grid grid-cols-4 gap-4">
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between space-y-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-700">
+                                <i class="fa-solid fa-box text-sm"></i>
+                            </div>
+                            <span class="text-xs font-medium text-slate-500">Materiais</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900" id="custos-materiais">0,00 €</h3>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between space-y-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600">
+                                <i class="fa-regular fa-user text-sm"></i>
+                            </div>
+                            <span class="text-xs font-medium text-slate-500">Mão de obra</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900" id="custos-mo">0,00 €</h3>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between space-y-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 bg-amber-50 rounded-xl flex items-center justify-center text-amber-600">
+                                <i class="fa-regular fa-file-lines text-sm"></i>
+                            </div>
+                            <span class="text-xs font-medium text-slate-500">Serviços</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900" id="custos-servicos">0,00 €</h3>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between space-y-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 bg-purple-50 rounded-xl flex items-center justify-center text-purple-600">
+                                <i class="fa-solid fa-euro-sign text-sm"></i>
+                            </div>
+                            <span class="text-xs font-medium text-slate-500">Total geral</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900" id="custos-total">0,00 €</h3>
+                    </div>
+                </div>
+
+                <!-- 2 PAINÉIS INFERIORES: COMPOSIÇÃO E RANKING -->
+                <div class="grid grid-cols-5 gap-6">
+                    <!-- COMPOSIÇÃO (3 colunas de largura) -->
+                    <div class="col-span-3 bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
+                        <div>
+                            <span class="text-xs font-bold text-emerald-700 tracking-wider uppercase">COMPOSIÇÃO</span>
+                            <h4 class="text-base font-bold text-slate-900">Custos por categoria</h4>
+                        </div>
+                        <div id="custos-categoria-content">
+                            <div class="border border-dashed border-slate-200 rounded-xl p-10 text-center text-xs text-slate-400">
+                                Sem custos registados ainda.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RANKING (2 colunas de largura) -->
+                    <div class="col-span-2 bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
+                        <div>
+                            <span class="text-xs font-bold text-emerald-700 tracking-wider uppercase">RANKING</span>
+                            <h4 class="text-base font-bold text-slate-900">Custos por orçamento</h4>
+                        </div>
+                        <div class="overflow-x-auto custom-scrollbar pb-2">
+                            <table class="w-full text-left text-xs min-w-[420px]">
+                                <thead>
+                                    <tr class="bg-slate-50 text-slate-500 font-semibold border-y border-slate-200/80">
+                                        <th class="py-2.5 px-3">ORÇAMENTO</th>
+                                        <th class="py-2.5 px-3">SERVIÇOS</th>
+                                        <th class="py-2.5 px-3">MATERIAIS</th>
+                                        <th class="py-2.5 px-3">MÃO DE OBRA</th>
+                                        <th class="py-2.5 px-3">TOTAL</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="custos-ranking-tbody">
+                                    <tr>
+                                        <td colspan="5" class="py-4">
+                                            <div class="border border-dashed border-slate-200 rounded-xl p-8 text-center text-xs text-slate-400">
+                                                Sem orçamentos ainda.
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -535,7 +617,7 @@
                 </div>
             `).join('');
 
-            serviceSelect.innerHTML = catalogServices.map(s => `<option value="${s.id}" data-price="${s.price}">${s.id} - ${s.name} (${s.price} €/${s.unit})</option>`).join('');
+            serviceSelect.innerHTML = catalogServices.map(s => `<option value="${s.id}" data-price="${s.price}" data-cat="${s.cat}">${s.id} - ${s.name} (${s.price} €/${s.unit})</option>`).join('');
             autoFillServicePrice();
         }
 
@@ -556,7 +638,9 @@
 
         function addBudgetItem() {
             const select = document.getElementById('orc-service-select');
-            const serviceName = select.options[select.selectedIndex].text;
+            const selectedOpt = select.options[select.selectedIndex];
+            const serviceName = selectedOpt.text;
+            const category = selectedOpt.getAttribute('data-cat') || 'Geral';
             const zona = document.getElementById('orc-zona').value || 'Geral';
             const qtd = parseFloat(document.getElementById('orc-qtd').value) || 0;
             const preco = parseFloat(document.getElementById('orc-preco').value) || 0;
@@ -565,7 +649,7 @@
 
             const totalItem = (qtd * preco) + mat + mo;
 
-            budgetItems.push({ serviceName, zona, qtd, preco, mat, mo, totalItem });
+            budgetItems.push({ serviceName, category, zona, qtd, preco, mat, mo, totalItem });
             renderBudgetTable();
             calculateTotals();
         }
@@ -588,8 +672,8 @@
                     <td class="py-2 font-medium text-slate-800">${item.serviceName}</td>
                     <td class="py-2 text-slate-500">${item.zona}</td>
                     <td class="py-2 text-slate-500">${item.qtd}</td>
-                    <td class="py-2 text-slate-500">${item.preco.toFixed(2)} €</td>
-                    <td class="py-2 font-bold text-slate-900">${item.totalItem.toFixed(2)} €</td>
+                    <td class="py-2 text-slate-500">${item.preco.toFixed(2).replace('.', ',')} €</td>
+                    <td class="py-2 font-bold text-slate-900">${item.totalItem.toFixed(2).replace('.', ',')} €</td>
                     <td class="py-2 text-right"><button onclick="removeBudgetItem(${idx})" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button></td>
                 </tr>
             `).join('');
@@ -599,6 +683,10 @@
             budgetItems.splice(index, 1);
             renderBudgetTable();
             calculateTotals();
+        }
+
+        function formatEuro(val) {
+            return val.toFixed(2).replace('.', ',') + ' €';
         }
 
         function calculateTotals() {
@@ -617,16 +705,69 @@
             const ivaVal = subtotal * (ivaPct / 100);
             const totalGeral = subtotal + ivaVal;
 
-            document.getElementById('res-servicos').textContent = totalServicos.toFixed(2).replace('.', ',') + ' €';
-            document.getElementById('res-materiais').textContent = totalMateriais.toFixed(2).replace('.', ',') + ' €';
-            document.getElementById('res-mo').textContent = totalMO.toFixed(2).replace('.', ',') + ' €';
-            document.getElementById('res-subtotal').textContent = subtotal.toFixed(2).replace('.', ',') + ' €';
+            // Resumo lateral dos Orçamentos
+            document.getElementById('res-servicos').textContent = formatEuro(totalServicos);
+            document.getElementById('res-materiais').textContent = formatEuro(totalMateriais);
+            document.getElementById('res-mo').textContent = formatEuro(totalMO);
+            document.getElementById('res-subtotal').textContent = formatEuro(subtotal);
             document.getElementById('iva-label-pct').textContent = ivaPct;
-            document.getElementById('res-iva').textContent = ivaVal.toFixed(2).replace('.', ',') + ' €';
-            document.getElementById('res-total').textContent = totalGeral.toFixed(2).replace('.', ',') + ' €';
+            document.getElementById('res-iva').textContent = formatEuro(ivaVal);
+            document.getElementById('res-total').textContent = formatEuro(totalGeral);
 
-            document.getElementById('stat-receita').textContent = totalGeral.toFixed(2).replace('.', ',') + ' €';
+            // Cartões do Início
+            document.getElementById('stat-receita').textContent = formatEuro(totalGeral);
             document.getElementById('stat-orcamentos').textContent = budgetItems.length > 0 ? '1' : '0';
+
+            // Atualizar separador CUSTOS
+            document.getElementById('custos-materiais').textContent = formatEuro(totalMateriais);
+            document.getElementById('custos-mo').textContent = formatEuro(totalMO);
+            document.getElementById('custos-servicos').textContent = formatEuro(totalServicos);
+            document.getElementById('custos-total').textContent = formatEuro(subtotal);
+
+            updateCustosPanels(totalServicos, totalMateriais, totalMO, subtotal);
+        }
+
+        function updateCustosPanels(servicos, materiais, mo, subtotal) {
+            const catContent = document.getElementById('custos-categoria-content');
+            const rankTbody = document.getElementById('custos-ranking-tbody');
+
+            if (budgetItems.length === 0) {
+                catContent.innerHTML = `<div class="border border-dashed border-slate-200 rounded-xl p-10 text-center text-xs text-slate-400">Sem custos registados ainda.</div>`;
+                rankTbody.innerHTML = `<tr><td colspan="5" class="py-4"><div class="border border-dashed border-slate-200 rounded-xl p-8 text-center text-xs text-slate-400">Sem orçamentos ainda.</div></td></tr>`;
+                return;
+            }
+
+            // Agrupar custos por categoria
+            const byCat = {};
+            budgetItems.forEach(item => {
+                byCat[item.category] = (byCat[item.category] || 0) + item.totalItem;
+            });
+
+            catContent.innerHTML = `<div class="space-y-3">` + Object.entries(byCat).map(([cat, val]) => {
+                const pct = subtotal > 0 ? ((val / subtotal) * 100).toFixed(1).replace('.', ',') : '0,0';
+                return `
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-xs">
+                            <span class="font-medium text-slate-700">${cat}</span>
+                            <span class="font-bold text-slate-900">${formatEuro(val)} (${pct}%)</span>
+                        </div>
+                        <div class="w-full bg-slate-100 rounded-full h-2">
+                            <div class="bg-emerald-600 h-2 rounded-full" style="width: ${subtotal > 0 ? (val / subtotal) * 100 : 0}%"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('') + `</div>`;
+
+            const projName = document.getElementById('orc-proj-nome').value || 'Orçamento Atual';
+            rankTbody.innerHTML = `
+                <tr class="border-b border-slate-100 text-xs">
+                    <td class="py-3 px-3 font-bold text-slate-800">${projName}</td>
+                    <td class="py-3 px-3 text-slate-600">${formatEuro(servicos)}</td>
+                    <td class="py-3 px-3 text-slate-600">${formatEuro(materiais)}</td>
+                    <td class="py-3 px-3 text-slate-600">${formatEuro(mo)}</td>
+                    <td class="py-3 px-3 font-bold text-emerald-700">${formatEuro(subtotal)}</td>
+                </tr>
+            `;
         }
 
         window.onload = function() {
